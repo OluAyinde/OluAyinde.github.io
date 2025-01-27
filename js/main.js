@@ -42,12 +42,21 @@ jQuery(document).ready(function($) {
         }
         
         $('nav a, .main-btn a').click(function(e) {
-            // When link clicked, find slide it points to
-            var newslide = parseInt($(this).attr('href')[1]);
-            // find how far it is from current slide
-            var diff = newslide - currSlide - 1;
-            showSlide(diff); // show that slide
-            e.preventDefault();
+            var href = $(this).attr('href');
+        
+            // Check if the link is external
+            if (href.startsWith('http://') || href.startsWith('https://')) {
+                // Allow external links to open normally
+                return true;
+            } else {
+                // For internal links, find the slide it points to
+                var newslide = parseInt(href[1]);
+                // Find how far it is from the current slide
+                var diff = newslide - currSlide - 1;
+                showSlide(diff); // Show that slide
+                e.preventDefault(); // Prevent default behavior for internal links
+            }
+
         });
       
         $(window).resize(function(){
